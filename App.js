@@ -1,20 +1,51 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import RegistrationScreen from './Screens/RegistrationScreen/RegistrationScreen';
 import LoginScreen from './Screens/LoginScreen/LoginScreen';
-// import { NavigationContainer } from 'react-native-screens';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as Font from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { View } from 'react-native';
 
-// const Stack = createNativeStackNavigator();
+SplashScreen.preventAutoHideAsync();
 
-function App() {
+const customFonts = {
+  'Roboto-Medium': require('./assets/fonts/Roboto/Roboto-Medium.ttf'),
+  'Roboto-Regular': require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
+  Orbitron: require('./assets/fonts/Orbitron/Orbitron-VariableFont_wght.ttf'),
+};
+
+const App = () => {
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync(customFonts);
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
   return (
-    <RegistrationScreen />
-    // <LoginScreen />
-    // <NavigationContainer>
-    //   <Stack.Screen name="Register" component={RegistrationScreen} />
-    //   <Stack.Screen name="Login" component={LoginScreen} />
-    // </NavigationContainer>
+    <View onLayout={onLayoutRootView}>
+      {/* <RegistrationScreen /> */}
+      <LoginScreen />
+    </View>
   );
-}
+};
 
 export default App;

@@ -11,15 +11,15 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { colors } from '../../utils/styles';
 import styles from './RegistrationScreenStyles';
+
 const BgImage = require('../../assets/img/BgPhoto.jpg');
 const addPhotoBtn = require('../../assets/img/addProfilePhotoBtn.png');
-import AppLoading from 'expo-app-loading';
-
-const loadFonts = async () => {
-  await Font.loadAsync({
-    'Roboto-Medium': require('../../assets/fonts/Roboto/Roboto-Medium.ttf'),
-  });
+const initialFormData = {
+  login: '',
+  email: '',
+  password: '',
 };
 
 const RegistrationScreen = () => {
@@ -28,80 +28,148 @@ const RegistrationScreen = () => {
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //   const [isReady, setIsReady] = useState(false);
-  //   if (!isReady)
-  //     return (
-  //       <AppLoading
-  //         startAsync={loadFonts}
-  //         onFinish={() => setIsReady(true)}
-  //         onError={err => console.log(err)}
-  //       />
-  //     );
+  const [formData, setFormData] = useState(initialFormData);
 
-  const onFocus = () => setIsKeyboardShown(true);
+  const [loginBorder, setLoginBorder] = useState(colors.shapeAccent);
+  const [emailBorder, setEmailBorder] = useState(colors.shapeAccent);
+  const [passwordBorder, setPasswordBorder] = useState(colors.shapeAccent);
+
+  const resetState = () => {
+    setLogin('');
+    setEmail('');
+    setPassword('');
+    setFormData({ login: '', email: '', password: '' });
+  };
+
+  const onFocus = key => {
+    setIsKeyboardShown(true);
+    // не розумію як легше змінювати колір при фокус на інпуті
+    switch (key) {
+      case 'l':
+        setLoginBorder(colors.mainAccent);
+        break;
+      case 'e':
+        setEmailBorder(colors.mainAccent);
+        break;
+      case 'p':
+        setPasswordBorder(colors.mainAccent);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const onBlur = key => {
+    switch (key) {
+      case 'l':
+        setLoginBorder(colors.shapeAccent);
+        break;
+      case 'e':
+        setEmailBorder(colors.shapeAccent);
+        break;
+      case 'p':
+        setPasswordBorder(colors.shapeAccent);
+        break;
+      default:
+        break;
+    }
+  };
 
   const onUnfocus = () => {
     setIsKeyboardShown(false);
     Keyboard.dismiss();
   };
 
-  const onSubmit = () => {};
+  const onChange = (key, value) => {
+    switch (key) {
+      case 'login':
+        setLogin(value);
+        break;
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
+      default:
+        break;
+    }
+
+    setFormData(prevState => ({ ...prevState, [key]: value }));
+  };
+
+  const onSubmit = () => {
+    onUnfocus();
+    console.log(formData);
+    resetState();
+  };
+
   const togglePassVisibility = () => setIsPasswordHidden(!isPasswordHidden);
 
   return (
     <ImageBackground style={styles.bgImage} source={BgImage}>
       <TouchableWithoutFeedback onPress={onUnfocus}>
-        <View style={styles.mainContent}>
+        <View style={{ ...styles.mainContent, paddingBottom: isKeyboardShown ? 0 : 78 }}>
           <View style={styles.profilePhoto}>
             <TouchableOpacity>
               <Image source={addPhotoBtn} style={styles.addPhotoBtn} />
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.pageTitle}>Registration</Text>
+          <Text style={styles.pageTitle}>Реєстрація</Text>
 
-          <View style={styles.from} onPress={onUnfocus}>
+          <View style={styles.from}>
             <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
               <TextInput
-                style={styles.input}
-                placeholder="Login"
+                style={{
+                  ...styles.input,
+                  borderColor: loginBorder,
+                }}
+                placeholder="Логін"
                 value={login}
-                onChangeText={t => setLogin(t)}
-                onFocus={onFocus}
+                onChangeText={value => onChange('login', value)}
+                onFocus={() => onFocus('l')}
+                onBlur={() => onBlur('l')}
               ></TextInput>
 
               <TextInput
-                style={styles.input}
-                placeholder="Email address"
+                style={{
+                  ...styles.input,
+                  borderColor: emailBorder,
+                }}
+                placeholder="Адреса електронної пошти"
                 value={email}
-                onChangeText={t => setEmail(t)}
-                onFocus={onFocus}
+                onChangeText={value => onChange('email', value)}
+                onFocus={() => onFocus('e')}
+                onBlur={() => onBlur('e')}
               ></TextInput>
 
               <View style={styles.passwordWrap}>
                 <TextInput
-                  style={{ ...styles.input, marginBottom: 0 }}
-                  placeholder="Password"
+                  style={{ ...styles.input, marginBottom: 0, borderColor: passwordBorder }}
+                  placeholder="Пароль"
                   value={password}
-                  onChangeText={t => setPassword(t)}
-                  onFocus={onFocus}
+                  onChangeText={value => onChange('password', value)}
+                  onFocus={() => onFocus('p')}
+                  onBlur={() => onBlur('p')}
                   secureTextEntry={isPasswordHidden}
                 ></TextInput>
+
                 <TouchableOpacity onPress={togglePassVisibility} style={styles.secureBtn}>
-                  <Text>{isPasswordHidden ? 'Show' : 'Hide'}</Text>
+                  <Text style={styles.secureText}>
+                    {isPasswordHidden ? 'Показати' : 'Приховати'}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </KeyboardAvoidingView>
 
-            <TouchableOpacity style={styles.submitBtn} ress={onSubmit}>
-              <Text style={styles.submitText}>Register</Text>
+            <TouchableOpacity style={styles.submitBtn} onPress={onSubmit}>
+              <Text style={styles.submitText}>Зареєструватися</Text>
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity onP>
-            <Text style={{ ...styles.navigationText, marginBottom: isKeyboardShown ? 0 : 78 }}>
-              Already have an account? Login
-            </Text>
+          <TouchableOpacity>
+            <Text style={styles.navigationText}>Вже є аккаунт? Увійти</Text>
           </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>

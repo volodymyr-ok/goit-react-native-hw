@@ -17,7 +17,7 @@ export default StyleSheet.create({
     position: 'relative',
     alignItems: 'center',
 
-    paddingTop: 92,
+    paddingTop: 32,
     paddingHorizontal: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -37,23 +37,6 @@ export default StyleSheet.create({
 
   from: {
     marginBottom: 16,
-  },
-
-  profilePhoto: {
-    position: 'absolute',
-    top: -60,
-
-    width: 120,
-    height: 120,
-    borderRadius: 16,
-
-    backgroundColor: `${colors.layoutBg}`,
-  },
-
-  addPhotoBtn: {
-    position: 'absolute',
-    bottom: -120 + 14,
-    right: -12,
   },
 
   input: {
