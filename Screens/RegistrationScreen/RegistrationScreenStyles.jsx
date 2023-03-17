@@ -30,7 +30,7 @@ export default StyleSheet.create({
 
     textAlign: 'center',
     fontSize: 30,
-    fontWeight: 500,
+    fontWeight: 'medium',
     fontFamily: `${fonts.robo5}`,
     color: `${colors.mainText}`,
   },
