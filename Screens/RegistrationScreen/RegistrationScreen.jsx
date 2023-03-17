@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ImageBackground,
   View,
@@ -34,6 +34,15 @@ const RegistrationScreen = () => {
   const [emailBorder, setEmailBorder] = useState(colors.shapeAccent);
   const [passwordBorder, setPasswordBorder] = useState(colors.shapeAccent);
 
+  useEffect(() => {
+    const listenShow = Keyboard.addListener('keyboardDidShow', () => setIsKeyboardShown(true));
+    const listenHide = Keyboard.addListener('keyboardDidHide', () => setIsKeyboardShown(false));
+    return () => {
+      listenShow.remove();
+      listenHide.remove();
+    };
+  }, []);
+
   const resetState = () => {
     setLogin('');
     setEmail('');
@@ -42,8 +51,6 @@ const RegistrationScreen = () => {
   };
 
   const onFocus = key => {
-    setIsKeyboardShown(true);
-    // не розумію як легше змінювати колір при фокус на інпуті
     switch (key) {
       case 'l':
         setLoginBorder(colors.mainAccent);
@@ -75,10 +82,7 @@ const RegistrationScreen = () => {
     }
   };
 
-  const onUnfocus = () => {
-    setIsKeyboardShown(false);
-    Keyboard.dismiss();
-  };
+  const onUnfocus = () => Keyboard.dismiss();
 
   const onChange = (key, value) => {
     switch (key) {

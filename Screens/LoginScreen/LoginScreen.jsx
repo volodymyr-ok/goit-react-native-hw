@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ImageBackground,
   View,
@@ -28,6 +28,15 @@ const LoginScreen = () => {
   const [emailBorder, setEmailBorder] = useState(colors.shapeAccent);
   const [passwordBorder, setPasswordBorder] = useState(colors.shapeAccent);
 
+  useEffect(() => {
+    const listenShow = Keyboard.addListener('keyboardDidShow', () => setIsKeyboardShown(true));
+    const listenHide = Keyboard.addListener('keyboardDidHide', () => setIsKeyboardShown(false));
+    return () => {
+      listenShow.remove();
+      listenHide.remove();
+    };
+  }, []);
+
   const resetState = () => {
     setEmail('');
     setPassword('');
@@ -35,8 +44,6 @@ const LoginScreen = () => {
   };
 
   const onFocus = key => {
-    setIsKeyboardShown(true);
-    // не розумію як легше змінювати колір при фокус на інпуті
     switch (key) {
       case 'e':
         setEmailBorder(colors.mainAccent);
@@ -62,10 +69,7 @@ const LoginScreen = () => {
     }
   };
 
-  const onUnfocus = () => {
-    setIsKeyboardShown(false);
-    Keyboard.dismiss();
-  };
+  const onUnfocus = () => Keyboard.dismiss();
 
   const onChange = (key, value) => {
     switch (key) {
@@ -91,55 +95,61 @@ const LoginScreen = () => {
   const togglePassVisibility = () => setIsPasswordHidden(!isPasswordHidden);
 
   return (
-    <ImageBackground style={styles.bgImage} source={BgImage}>
-      <TouchableWithoutFeedback onPress={onUnfocus}>
-        <View style={{ ...styles.mainContent, paddingBottom: isKeyboardShown ? 0 : 144 }}>
-          <Text style={styles.pageTitle}>Увійти</Text>
+    <TouchableWithoutFeedback onPress={onUnfocus}>
+      <View>
+        <ImageBackground style={styles.bgImage} source={BgImage}>
+          <View style={{ ...styles.mainContent, paddingBottom: isKeyboardShown ? 0 : 144 }}>
+            <Text style={styles.pageTitle}>Увійти</Text>
 
-          <View style={styles.from}>
-            <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-              <TextInput
-                style={{
-                  ...styles.input,
-                  borderColor: emailBorder,
-                }}
-                placeholder="Адреса електронної пошти"
-                value={email}
-                onChangeText={value => onChange('email', value)}
-                onFocus={() => onFocus('e')}
-                onBlur={() => onBlur('e')}
-              ></TextInput>
-
-              <View style={styles.passwordWrap}>
+            <View style={styles.from}>
+              <KeyboardAvoidingView
+                behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+                // behavior="position"
+                keyboardVerticalOffset={-80}
+              >
                 <TextInput
-                  style={{ ...styles.input, marginBottom: 0, borderColor: passwordBorder }}
-                  placeholder="Пароль"
-                  value={password}
-                  onChangeText={value => onChange('password', value)}
-                  onFocus={() => onFocus('p')}
-                  onBlur={() => onBlur('p')}
-                  secureTextEntry={isPasswordHidden}
+                  style={{
+                    ...styles.input,
+                    borderColor: emailBorder,
+                  }}
+                  placeholder="Адреса електронної пошти"
+                  value={email}
+                  onChangeText={value => onChange('email', value)}
+                  onFocus={() => onFocus('e')}
+                  onBlur={() => onBlur('e')}
                 ></TextInput>
 
-                <TouchableOpacity onPress={togglePassVisibility} style={styles.secureBtn}>
-                  <Text style={styles.secureText}>
-                    {isPasswordHidden ? 'Показати' : 'Приховати'}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </KeyboardAvoidingView>
+                <View style={styles.passwordWrap}>
+                  <TextInput
+                    style={{ ...styles.input, marginBottom: 0, borderColor: passwordBorder }}
+                    placeholder="Пароль"
+                    value={password}
+                    onChangeText={value => onChange('password', value)}
+                    onFocus={() => onFocus('p')}
+                    onBlur={() => onBlur('p')}
+                    secureTextEntry={isPasswordHidden}
+                  ></TextInput>
 
-            <TouchableOpacity style={styles.submitBtn} onPress={onSubmit}>
-              <Text style={styles.submitText}>Зареєструватися</Text>
+                  <TouchableOpacity onPress={togglePassVisibility} style={styles.secureBtn}>
+                    <Text style={styles.secureText}>
+                      {isPasswordHidden ? 'Показати' : 'Приховати'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </KeyboardAvoidingView>
+
+              <TouchableOpacity style={styles.submitBtn} onPress={onSubmit}>
+                <Text style={styles.submitText}>Зареєструватися</Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity>
+              <Text style={{ ...styles.navigationText }}>Немає аккаунту? Зареєструватися</Text>
             </TouchableOpacity>
           </View>
-
-          <TouchableOpacity>
-            <Text style={{ ...styles.navigationText }}>Немає аккаунту? Зареєструватися</Text>
-          </TouchableOpacity>
-        </View>
-      </TouchableWithoutFeedback>
-    </ImageBackground>
+        </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
