@@ -16,23 +16,14 @@ import styles from './RegistrationScreenStyles';
 
 const BgImage = require('../../assets/img/BgPhoto.jpg');
 const addPhotoBtn = require('../../assets/img/addProfilePhotoBtn.png');
-const initialFormData = {
-  login: '',
-  email: '',
-  password: '',
-};
 
 const RegistrationScreen = () => {
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  const [isFocused, setIsFocused] = useState({});
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [formData, setFormData] = useState(initialFormData);
-
-  const [loginBorder, setLoginBorder] = useState(colors.shapeAccent);
-  const [emailBorder, setEmailBorder] = useState(colors.shapeAccent);
-  const [passwordBorder, setPasswordBorder] = useState(colors.shapeAccent);
 
   useEffect(() => {
     const listenShow = Keyboard.addListener('keyboardDidShow', () => setIsKeyboardShown(true));
@@ -43,76 +34,22 @@ const RegistrationScreen = () => {
     };
   }, []);
 
-  const resetState = () => {
+  const changeBorder = input => (isFocused[input] ? colors.mainAccent : colors.shapeAccent);
+  const togglePassVisibility = () => setIsPasswordHidden(!isPasswordHidden);
+  const onFocus = input => setIsFocused({ [input]: true });
+  const onBlur = input => setIsFocused({ [input]: false });
+
+  const onSubmit = () => {
+    Keyboard.dismiss();
+    console.log({ login, email, password });
     setLogin('');
     setEmail('');
     setPassword('');
-    setFormData({ login: '', email: '', password: '' });
   };
-
-  const onFocus = key => {
-    switch (key) {
-      case 'l':
-        setLoginBorder(colors.mainAccent);
-        break;
-      case 'e':
-        setEmailBorder(colors.mainAccent);
-        break;
-      case 'p':
-        setPasswordBorder(colors.mainAccent);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const onBlur = key => {
-    switch (key) {
-      case 'l':
-        setLoginBorder(colors.shapeAccent);
-        break;
-      case 'e':
-        setEmailBorder(colors.shapeAccent);
-        break;
-      case 'p':
-        setPasswordBorder(colors.shapeAccent);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const onUnfocus = () => Keyboard.dismiss();
-
-  const onChange = (key, value) => {
-    switch (key) {
-      case 'login':
-        setLogin(value);
-        break;
-      case 'email':
-        setEmail(value);
-        break;
-      case 'password':
-        setPassword(value);
-        break;
-      default:
-        break;
-    }
-
-    setFormData(prevState => ({ ...prevState, [key]: value }));
-  };
-
-  const onSubmit = () => {
-    onUnfocus();
-    console.log(formData);
-    resetState();
-  };
-
-  const togglePassVisibility = () => setIsPasswordHidden(!isPasswordHidden);
 
   return (
     <ImageBackground style={styles.bgImage} source={BgImage}>
-      <TouchableWithoutFeedback onPress={onUnfocus}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ ...styles.mainContent, paddingBottom: isKeyboardShown ? 0 : 78 }}>
           <View style={styles.profilePhoto}>
             <TouchableOpacity>
@@ -127,35 +64,39 @@ const RegistrationScreen = () => {
               <TextInput
                 style={{
                   ...styles.input,
-                  borderColor: loginBorder,
+                  borderColor: changeBorder('login'),
                 }}
                 placeholder="Логін"
                 value={login}
-                onChangeText={value => onChange('login', value)}
-                onFocus={() => onFocus('l')}
-                onBlur={() => onBlur('l')}
+                onChangeText={value => setLogin(value)}
+                onFocus={() => onFocus('login')}
+                onBlur={() => onBlur('login')}
               ></TextInput>
 
               <TextInput
                 style={{
                   ...styles.input,
-                  borderColor: emailBorder,
+                  borderColor: changeBorder('email'),
                 }}
                 placeholder="Адреса електронної пошти"
                 value={email}
-                onChangeText={value => onChange('email', value)}
-                onFocus={() => onFocus('e')}
-                onBlur={() => onBlur('e')}
+                onChangeText={value => setEmail(value)}
+                onFocus={() => onFocus('email')}
+                onBlur={() => onBlur('email')}
               ></TextInput>
 
               <View style={styles.passwordWrap}>
                 <TextInput
-                  style={{ ...styles.input, marginBottom: 0, borderColor: passwordBorder }}
+                  style={{
+                    ...styles.input,
+                    marginBottom: 0,
+                    borderColor: changeBorder('password'),
+                  }}
                   placeholder="Пароль"
                   value={password}
-                  onChangeText={value => onChange('password', value)}
-                  onFocus={() => onFocus('p')}
-                  onBlur={() => onBlur('p')}
+                  onChangeText={value => setPassword(value)}
+                  onFocus={() => onFocus('password')}
+                  onBlur={() => onBlur('password')}
                   secureTextEntry={isPasswordHidden}
                 ></TextInput>
 

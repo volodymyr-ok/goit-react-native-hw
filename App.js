@@ -6,7 +6,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { View } from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
-
 const customFonts = {
   'Roboto-Medium': require('./assets/fonts/Roboto/Roboto-Medium.ttf'),
   'Roboto-Regular': require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
@@ -26,24 +25,19 @@ const App = () => {
         setAppIsReady(true);
       }
     }
-
     prepare();
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      await SplashScreen.hideAsync();
-    }
+    if (appIsReady) await SplashScreen.hideAsync();
   }, [appIsReady]);
 
-  if (!appIsReady) {
-    return null;
-  }
+  if (!appIsReady) return null;
 
   return (
     <View onLayout={onLayoutRootView}>
-      <RegistrationScreen />
-      {/* <LoginScreen /> */}
+      {/* <RegistrationScreen /> */}
+      <LoginScreen />
     </View>
   );
 };
