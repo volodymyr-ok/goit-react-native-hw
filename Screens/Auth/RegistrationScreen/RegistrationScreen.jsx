@@ -11,11 +11,11 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { colors } from '../../utils/styles';
+import { colors } from '../../../utils/styles';
 import styles from './RegistrationScreenStyles';
+import { AntDesign } from '@expo/vector-icons';
 
-const BgImage = require('../../assets/img/BgPhoto.jpg');
-const addPhotoBtn = require('../../assets/img/addProfilePhotoBtn.png');
+const BgImage = require('../../../assets/img/BgPhoto.jpg');
 
 const RegistrationScreen = () => {
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
@@ -52,8 +52,8 @@ const RegistrationScreen = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ ...styles.mainContent, paddingBottom: isKeyboardShown ? 0 : 78 }}>
           <View style={styles.profilePhoto}>
-            <TouchableOpacity>
-              <Image source={addPhotoBtn} style={styles.addPhotoBtn} />
+            <TouchableOpacity style={styles.addPhotoBtn}>
+              <AntDesign name="pluscircleo" size={24} color={colors.mainAccent} />
             </TouchableOpacity>
           </View>
 

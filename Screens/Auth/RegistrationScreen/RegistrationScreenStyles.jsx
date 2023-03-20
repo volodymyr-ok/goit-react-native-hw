@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, fonts } from '../../utils/styles';
+import { colors, fonts } from '../../../utils/styles';
 
 // borderColor: 'green',
 // borderWidth: 1,
@@ -52,8 +52,11 @@ export default StyleSheet.create({
 
   addPhotoBtn: {
     position: 'absolute',
-    bottom: -120 + 14,
+    bottom: 14,
     right: -12,
+
+    borderRadius: 50,
+    backgroundColor: `${colors.bgContent}`,
   },
 
   input: {

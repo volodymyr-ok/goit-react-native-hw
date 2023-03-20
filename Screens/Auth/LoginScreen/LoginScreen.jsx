@@ -10,9 +10,9 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { colors } from '../../utils/styles';
+import { colors } from '../../../utils/styles';
 import styles from './LoginScreenStyles';
-const BgImage = require('../../assets/img/BgPhoto.jpg');
+const BgImage = require('../../../assets/img/BgPhoto.jpg');
 
 const LoginScreen = () => {
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);

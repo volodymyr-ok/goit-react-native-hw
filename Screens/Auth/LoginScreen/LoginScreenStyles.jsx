@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, fonts } from '../../utils/styles';
+import { colors, fonts } from '../../../utils/styles';
 
 // borderColor: 'green',
 // borderWidth: 1,

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import RegistrationScreen from './Screens/RegistrationScreen/RegistrationScreen';
-import LoginScreen from './Screens/LoginScreen/LoginScreen';
+import RegistrationScreen from './Screens/Auth/RegistrationScreen/RegistrationScreen';
+import LoginScreen from './Screens/Auth/LoginScreen/LoginScreen';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { View } from 'react-native';
@@ -36,8 +36,8 @@ const App = () => {
 
   return (
     <View onLayout={onLayoutRootView}>
-      {/* <RegistrationScreen /> */}
-      <LoginScreen />
+      <RegistrationScreen />
+      {/* <LoginScreen /> */}
     </View>
   );
 };
