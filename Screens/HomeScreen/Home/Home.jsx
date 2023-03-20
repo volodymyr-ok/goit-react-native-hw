@@ -9,29 +9,26 @@ const Home = ({ navigation }) => {
       <Text style={styles.mainText}>HOME</Text>
 
       <TouchableOpacity style={styles.commonBtn} onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.btnText}>logout</Text>
+        <Text style={styles.btnText}>LOGOUT</Text>
       </TouchableOpacity>
 
-      <Button title="Posts" style={styles.commonBtn} onPress={() => navigation.navigate('Posts')} />
+      <TouchableOpacity style={styles.commonBtn} onPress={() => navigation.navigate('Posts')}>
+        <Text style={styles.btnText}>Posts</Text>
+      </TouchableOpacity>
 
-      <Button
-        title="CreatePosts"
-        style={styles.commonBtn}
-        onPress={() => navigation.navigate('CreatePosts')}
-      />
+      <TouchableOpacity style={styles.commonBtn} onPress={() => navigation.navigate('CreatePosts')}>
+        <Text style={styles.btnText}>CreatePosts</Text>
+      </TouchableOpacity>
 
-      <Button
-        title="back"
-        style={styles.commonBtn}
-        onPress={() => navigation.navigate('Profile')}
-      />
+      <TouchableOpacity style={styles.commonBtn} onPress={() => navigation.navigate('Profile')}>
+        <Text style={styles.btnText}>Profile</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 // borderColor: 'green',
 // borderWidth: 1,
-// { flex: 1, alignItems: 'center', justifyContent: 'center' }
 
 const styles = StyleSheet.create({
   mainScreen: {

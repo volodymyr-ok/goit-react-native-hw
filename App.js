@@ -7,8 +7,12 @@ import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './Screens/HomeScreen/Home/Home';
+import PostsScreen from './Screens/HomeScreen/PostsScreen/PostsScreen';
+import CreatePostsScreen from './Screens/HomeScreen/CreatePostsScreen/CreatePostsScreen';
+import ProfileScreen from './Screens/HomeScreen/ProfileScreen/ProfileScreen';
 
 const AuthStack = createNativeStackNavigator();
+const Tabs = createNativeStackNavigator();
 
 SplashScreen.preventAutoHideAsync();
 const customFonts = {
@@ -46,6 +50,9 @@ const App = () => {
         <AuthStack.Screen name="Login" component={LoginScreen} />
         <AuthStack.Screen name="Registration" component={RegistrationScreen} />
         <AuthStack.Screen name="Home" component={Home} />
+        <Tabs.Screen name="Posts" component={PostsScreen} />
+        <Tabs.Screen name="CreatePosts" component={CreatePostsScreen} />
+        <Tabs.Screen name="Profile" component={ProfileScreen} />
       </AuthStack.Navigator>
     </NavigationContainer>
     // </View>
