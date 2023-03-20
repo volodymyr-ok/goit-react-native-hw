@@ -4,6 +4,10 @@ import LoginScreen from './Screens/Auth/LoginScreen/LoginScreen';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const AuthStack = createNativeStackNavigator();
 
 SplashScreen.preventAutoHideAsync();
 const customFonts = {
@@ -35,10 +39,16 @@ const App = () => {
   if (!appIsReady) return null;
 
   return (
-    <View onLayout={onLayoutRootView}>
-      <RegistrationScreen />
-      {/* <LoginScreen /> */}
-    </View>
+    // <View onLayout={onLayoutRootView}>
+    <NavigationContainer>
+      <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+        <AuthStack.Screen name="Login" component={LoginScreen} />
+        <AuthStack.Screen name="Registration" component={RegistrationScreen} />
+      </AuthStack.Navigator>
+      {/* <RegistrationScreen />
+        <LoginScreen /> */}
+    </NavigationContainer>
+    // </View>
   );
 };
 

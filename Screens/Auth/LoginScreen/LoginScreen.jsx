@@ -14,7 +14,7 @@ import { colors } from '../../../utils/styles';
 import styles from './LoginScreenStyles';
 const BgImage = require('../../../assets/img/BgPhoto.jpg');
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [email, setEmail] = useState('');
@@ -91,7 +91,7 @@ const LoginScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
               <Text style={{ ...styles.navigationText }}>Немає аккаунту? Зареєструватися</Text>
             </TouchableOpacity>
           </View>

@@ -17,7 +17,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 const BgImage = require('../../../assets/img/BgPhoto.jpg');
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({ navigation }) => {
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isFocused, setIsFocused] = useState({});
@@ -113,7 +113,7 @@ const RegistrationScreen = () => {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={styles.navigationText}>Вже є аккаунт? Увійти</Text>
           </TouchableOpacity>
         </View>
