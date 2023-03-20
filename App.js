@@ -6,6 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './Screens/HomeScreen/Home/Home';
 
 const AuthStack = createNativeStackNavigator();
 
@@ -44,9 +45,8 @@ const App = () => {
       <AuthStack.Navigator screenOptions={{ headerShown: false }}>
         <AuthStack.Screen name="Login" component={LoginScreen} />
         <AuthStack.Screen name="Registration" component={RegistrationScreen} />
+        <AuthStack.Screen name="Home" component={Home} />
       </AuthStack.Navigator>
-      {/* <RegistrationScreen />
-        <LoginScreen /> */}
     </NavigationContainer>
     // </View>
   );

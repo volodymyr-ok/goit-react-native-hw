@@ -40,6 +40,7 @@ const LoginScreen = ({ navigation }) => {
     console.log({ email, password });
     setEmail('');
     setPassword('');
+    navigation.navigate('Home');
   };
 
   return (
