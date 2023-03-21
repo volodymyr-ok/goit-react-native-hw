@@ -10,7 +10,7 @@ import Home from './Screens/Main/Home/Home';
 import CommentsScreen from './Screens/Main/CommentsScreen/CommentsScreen';
 import MapScreen from './Screens/Main/MapScreen/MapScreen';
 
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 const AuthStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
 
@@ -46,21 +46,21 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        {isAuth ? (
-          <MainStack.Navigator screenOptions={screenOptions}>
-            <MainStack.Screen name="Home" component={Home} />
-            <MainStack.Screen name="CommentsScreen" component={CommentsScreen} />
-            <MainStack.Screen name="MapScreen" component={MapScreen} />
-          </MainStack.Navigator>
-        ) : (
-          <AuthStack.Navigator screenOptions={screenOptions}>
-            <AuthStack.Screen name="Login" component={LoginScreen} />
-            <AuthStack.Screen name="Registration" component={RegistrationScreen} />
-            <AuthStack.Screen name="Home" component={Home} />
-          </AuthStack.Navigator>
-        )}
-      </View>
+      {/* <View style={{ flex: 1 }} onLayout={onLayoutRootView}> */}
+      {isAuth ? (
+        <MainStack.Navigator screenOptions={screenOptions}>
+          <MainStack.Screen name="Home" component={Home} />
+          <MainStack.Screen name="CommentsScreen" component={CommentsScreen} />
+          <MainStack.Screen name="MapScreen" component={MapScreen} />
+        </MainStack.Navigator>
+      ) : (
+        <AuthStack.Navigator screenOptions={screenOptions}>
+          <AuthStack.Screen name="Login" component={LoginScreen} />
+          <AuthStack.Screen name="Registration" component={RegistrationScreen} />
+          <AuthStack.Screen name="Home" component={Home} />
+        </AuthStack.Navigator>
+      )}
+      {/* </View> */}
     </NavigationContainer>
   );
 };
