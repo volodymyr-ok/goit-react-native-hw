@@ -13,6 +13,7 @@ export const colors = {
 
   headerBorder: '#E5E5E5',
   logoutBtn: '#BDBDBD',
+  cameraBtn: 'rgba(255, 255, 255, 0.3)',
 };
 
 export const fonts = {

@@ -37,9 +37,9 @@ const App = () => {
     prepare();
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) await SplashScreen.hideAsync();
-  }, [appIsReady]);
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (appIsReady) await SplashScreen.hideAsync();
+  // }, [appIsReady]);
 
   if (!appIsReady) return null;
   const screenOptions = { headerShown: false };

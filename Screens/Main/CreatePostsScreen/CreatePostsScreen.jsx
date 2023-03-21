@@ -1,10 +1,17 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { Camera } from 'expo-camera';
+import { FontAwesome } from '@expo/vector-icons';
+import styles from './CreatePostsScreen.styles';
 
 const CreatePostsScreen = () => {
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-      <Text style={{ textAlign: 'center' }}>CreatePostsScreen</Text>
+    <View style={styles.mainContainer}>
+      <Camera style={styles.cameraView}>
+        <TouchableOpacity onPress={() => {}} style={styles.cameraBtn}>
+          <FontAwesome name="camera" size={24} style={styles.cameraIcon} />
+        </TouchableOpacity>
+      </Camera>
     </View>
   );
 };
