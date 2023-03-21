@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -8,7 +8,6 @@ import PostsScreen from '../PostsScreen/PostsScreen';
 import CreatePostsScreen from '../CreatePostsScreen/CreatePostsScreen';
 import ProfileScreen from '../ProfileScreen/ProfileScreen';
 import { colors, fonts } from '../../../utils/styles';
-
 const Tabs = createBottomTabNavigator();
 
 const Home = ({ navigation }) => {
@@ -40,8 +39,11 @@ const Home = ({ navigation }) => {
   };
 
   const LogoutBtn = () => {
+    const handleLogout = () => {
+      navigation.navigate('Login');
+    };
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.logoutBtn}>
+      <TouchableOpacity onPress={handleLogout} style={styles.logoutBtn}>
         <Feather name="log-out" size={24} color={colors.logoutBtn} />
       </TouchableOpacity>
     );

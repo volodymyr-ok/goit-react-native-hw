@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import RegistrationScreen from './Screens/Auth/RegistrationScreen/RegistrationScreen';
-import LoginScreen from './Screens/Auth/LoginScreen/LoginScreen';
-import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from './Screens/HomeScreen/Home/Home';
+import * as Font from 'expo-font';
+import { NavigationContainer } from '@react-navigation/native';
+import { View } from 'react-native';
+import LoginScreen from './Screens/Auth/LoginScreen/LoginScreen';
+import RegistrationScreen from './Screens/Auth/RegistrationScreen/RegistrationScreen';
+import Home from './Screens/Main/Home/Home';
+import CommentsScreen from './Screens/Main/CommentsScreen/CommentsScreen';
+import MapScreen from './Screens/Main/MapScreen/MapScreen';
 
 SplashScreen.preventAutoHideAsync();
 const AuthStack = createNativeStackNavigator();
+const MainStack = createNativeStackNavigator();
 
 const customFonts = {
   'Roboto-Medium': require('./assets/fonts/Roboto/Roboto-Medium.ttf'),
@@ -19,6 +22,7 @@ const customFonts = {
 
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
+  const isAuth = false;
 
   useEffect(() => {
     async function prepare() {
@@ -38,18 +42,24 @@ const App = () => {
   }, [appIsReady]);
 
   if (!appIsReady) return null;
-
-  // CommentsScreen
-  // MapScreen
+  const screenOptions = { headerShown: false };
 
   return (
     <NavigationContainer>
-      <View style={{ flex: 1, backgroundColor: '#000000' }} onLayout={onLayoutRootView}>
-        <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-          <AuthStack.Screen name="Login" component={LoginScreen} />
-          <AuthStack.Screen name="Registration" component={RegistrationScreen} />
-          <AuthStack.Screen name="Home" component={Home} />
-        </AuthStack.Navigator>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        {isAuth ? (
+          <MainStack.Navigator screenOptions={screenOptions}>
+            <MainStack.Screen name="Home" component={Home} />
+            <MainStack.Screen name="CommentsScreen" component={CommentsScreen} />
+            <MainStack.Screen name="MapScreen" component={MapScreen} />
+          </MainStack.Navigator>
+        ) : (
+          <AuthStack.Navigator screenOptions={screenOptions}>
+            <AuthStack.Screen name="Login" component={LoginScreen} />
+            <AuthStack.Screen name="Registration" component={RegistrationScreen} />
+            <AuthStack.Screen name="Home" component={Home} />
+          </AuthStack.Navigator>
+        )}
       </View>
     </NavigationContainer>
   );
