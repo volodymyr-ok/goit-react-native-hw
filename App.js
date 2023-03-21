@@ -3,18 +3,14 @@ import RegistrationScreen from './Screens/Auth/RegistrationScreen/RegistrationSc
 import LoginScreen from './Screens/Auth/LoginScreen/LoginScreen';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-// import { View } from 'react-native';
+import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './Screens/HomeScreen/Home/Home';
-import PostsScreen from './Screens/HomeScreen/PostsScreen/PostsScreen';
-import CreatePostsScreen from './Screens/HomeScreen/CreatePostsScreen/CreatePostsScreen';
-import ProfileScreen from './Screens/HomeScreen/ProfileScreen/ProfileScreen';
-
-const AuthStack = createNativeStackNavigator();
-const Tabs = createNativeStackNavigator();
 
 SplashScreen.preventAutoHideAsync();
+const AuthStack = createNativeStackNavigator();
+
 const customFonts = {
   'Roboto-Medium': require('./assets/fonts/Roboto/Roboto-Medium.ttf'),
   'Roboto-Regular': require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
@@ -37,25 +33,25 @@ const App = () => {
     prepare();
   }, []);
 
-  // const onLayoutRootView = useCallback(async () => {
-  //   if (appIsReady) await SplashScreen.hideAsync();
-  // }, [appIsReady]);
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) await SplashScreen.hideAsync();
+  }, [appIsReady]);
 
   if (!appIsReady) return null;
 
+  // CommentsScreen
+  // MapScreen
+
   return (
-    // <View onLayout={onLayoutRootView}>
     <NavigationContainer>
-      <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-        <AuthStack.Screen name="Login" component={LoginScreen} />
-        <AuthStack.Screen name="Registration" component={RegistrationScreen} />
-        <AuthStack.Screen name="Home" component={Home} />
-        <Tabs.Screen name="Posts" component={PostsScreen} />
-        <Tabs.Screen name="CreatePosts" component={CreatePostsScreen} />
-        <Tabs.Screen name="Profile" component={ProfileScreen} />
-      </AuthStack.Navigator>
+      <View style={{ flex: 1, backgroundColor: '#000000' }} onLayout={onLayoutRootView}>
+        <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+          <AuthStack.Screen name="Login" component={LoginScreen} />
+          <AuthStack.Screen name="Registration" component={RegistrationScreen} />
+          <AuthStack.Screen name="Home" component={Home} />
+        </AuthStack.Navigator>
+      </View>
     </NavigationContainer>
-    // </View>
   );
 };
 
