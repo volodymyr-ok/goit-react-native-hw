@@ -42,6 +42,7 @@ const App = () => {
   // }, [appIsReady]);
 
   if (!appIsReady) return null;
+
   const screenOptions = { headerShown: false };
 
   return (
