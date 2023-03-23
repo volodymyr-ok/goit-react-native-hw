@@ -28,16 +28,15 @@ const styles = StyleSheet.create({
     left: 0,
     zIndex: 1,
 
-    // height: 240,
-    // width: '100%',
-    height: '35%',
-    width: '45%',
+    height: 240,
+    width: '100%',
   },
 
   cameraViewport: {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
+    objectFit: 'cover',
   },
 
   cameraBtn: {

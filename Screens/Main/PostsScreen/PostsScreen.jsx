@@ -1,24 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, Image, Text, View } from 'react-native';
-import PostItem from './PostItem/PostItem';
+import React from 'react';
+import { View } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import PostsListScreen from '../../Nested/PostsListScreen/PostsListScreen';
+import CommentsScreen from '../../Nested/CommentsScreen/CommentsScreen';
+import MapScreen from '../../Nested/MapScreen/MapScreen';
 
-const PostsScreen = ({ route }) => {
-  const [posts, setPosts] = useState([]);
+const PostsStack = createNativeStackNavigator();
 
-  useEffect(() => {
-    // if (!route.params) return;
-    setPosts(prevPosts => [...prevPosts, route.params]);
-  }, [route.params]);
-
+const PostsScreen = () => {
   return (
     <View style={{ flex: 1 }}>
-      <FlatList
-        data={posts}
-        keyExtractor={(item, index) => `${index}`}
-        renderItem={({ item }) => {
-          return <PostItem item={item} />;
-        }}
-      />
+      <PostsStack.Navigator>
+        <PostsStack.Screen name="Публікації" component={PostsListScreen} />
+        <PostsStack.Screen name="Мапа" component={MapScreen} />
+        <PostsStack.Screen name="Коментарі" component={CommentsScreen} />
+      </PostsStack.Navigator>
     </View>
   );
 };

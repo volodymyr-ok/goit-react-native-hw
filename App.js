@@ -7,8 +7,6 @@ import { View } from 'react-native';
 import LoginScreen from './Screens/Auth/LoginScreen/LoginScreen';
 import RegistrationScreen from './Screens/Auth/RegistrationScreen/RegistrationScreen';
 import Home from './Screens/Main/Home/Home';
-import CommentsScreen from './Screens/Main/CommentsScreen/CommentsScreen';
-import MapScreen from './Screens/Main/MapScreen/MapScreen';
 
 // SplashScreen.preventAutoHideAsync();
 const AuthStack = createNativeStackNavigator();
@@ -51,8 +49,6 @@ const App = () => {
       {isAuth ? (
         <MainStack.Navigator screenOptions={screenOptions}>
           <MainStack.Screen name="Home" component={Home} />
-          <MainStack.Screen name="CommentsScreen" component={CommentsScreen} />
-          <MainStack.Screen name="MapScreen" component={MapScreen} />
         </MainStack.Navigator>
       ) : (
         <AuthStack.Navigator screenOptions={screenOptions}>

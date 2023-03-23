@@ -32,7 +32,7 @@ const Home = ({ navigation }) => {
   const BackBtn = () => {
     // backBehavior="history"
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('Публікації')} style={styles.backBtn}>
+      <TouchableOpacity onPress={() => navigation.navigate('Posts')} style={styles.backBtn}>
         <AntDesign name="arrowleft" size={24} color={colors.nonAccent} />
       </TouchableOpacity>
     );
@@ -67,11 +67,12 @@ const Home = ({ navigation }) => {
   return (
     <Tabs.Navigator screenOptions={screenOptions}>
       <Tabs.Screen
-        name="Публікації"
+        name="Posts"
         component={PostsScreen}
         options={{
           tabBarIcon: ({ focused }) => TabButton(focused, 'Posts'),
           headerRight: LogoutBtn,
+          headerShown: false,
         }}
       />
       <Tabs.Screen
