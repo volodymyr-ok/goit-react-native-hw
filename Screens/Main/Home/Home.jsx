@@ -81,6 +81,7 @@ const Home = ({ navigation }) => {
           tabBarIcon: ({ focused }) => TabButton(focused, 'Create'),
           tabBarStyle: { display: 'none' },
           headerLeft: BackBtn,
+          unmountOnBlur: true,
         }}
       />
       <Tabs.Screen
