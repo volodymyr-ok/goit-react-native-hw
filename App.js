@@ -15,6 +15,7 @@ const MainStack = createNativeStackNavigator();
 const customFonts = {
   'Roboto-Medium': require('./assets/fonts/Roboto/Roboto-Medium.ttf'),
   'Roboto-Regular': require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
+  'Roboto-Bold': require('./assets/fonts/Roboto/Roboto-Bold.ttf'),
   Orbitron: require('./assets/fonts/Orbitron/Orbitron-VariableFont_wght.ttf'),
 };
 

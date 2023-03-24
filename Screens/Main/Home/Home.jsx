@@ -1,16 +1,15 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
 import PostsScreen from '../PostsScreen/PostsScreen';
 import CreatePostsScreen from '../CreatePostsScreen/CreatePostsScreen';
 import ProfileScreen from '../ProfileScreen/ProfileScreen';
 import { colors, fonts } from '../../../utils/styles';
+import BackBtn from '../../../Components/BackBtn';
+import TabButton from '../../../Components/TabButton';
+
 const Tabs = createBottomTabNavigator();
 
-const Home = ({ navigation }) => {
+const Home = () => {
   const screenOptions = {
     headerStyle: {
       borderBottomWidth: 1,
@@ -29,41 +28,6 @@ const Home = ({ navigation }) => {
     },
   };
 
-  const BackBtn = () => {
-    // backBehavior="history"
-    return (
-      <TouchableOpacity onPress={() => navigation.navigate('Posts')} style={styles.backBtn}>
-        <AntDesign name="arrowleft" size={24} color={colors.nonAccent} />
-      </TouchableOpacity>
-    );
-  };
-
-  const LogoutBtn = () => {
-    const handleLogout = () => {
-      navigation.navigate('Login');
-    };
-    return (
-      <TouchableOpacity onPress={handleLogout} style={styles.logoutBtn}>
-        <Feather name="log-out" size={24} color={colors.logoutBtn} />
-      </TouchableOpacity>
-    );
-  };
-
-  const TabButton = (focused, name) => {
-    const btnStyles = {
-      ...styles.tabBtn,
-      backgroundColor: focused ? colors.mainAccent : 'transparent',
-    };
-    const iconColor = focused ? colors.submitText : colors.nonAccent;
-    return (
-      <View style={btnStyles}>
-        {name === 'Posts' && <Ionicons name="grid-outline" size={24} color={iconColor} />}
-        {name === 'Create' && <AntDesign name="plus" size={24} color={iconColor} />}
-        {name === 'Profile' && <Feather name="user" size={24} color={iconColor} />}
-      </View>
-    );
-  };
-
   return (
     <Tabs.Navigator screenOptions={screenOptions}>
       <Tabs.Screen
@@ -71,7 +35,6 @@ const Home = ({ navigation }) => {
         component={PostsScreen}
         options={{
           tabBarIcon: ({ focused }) => TabButton(focused, 'Posts'),
-          headerRight: LogoutBtn,
           headerShown: false,
         }}
       />
@@ -93,26 +56,5 @@ const Home = ({ navigation }) => {
     </Tabs.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  backBtn: {
-    marginLeft: 16,
-    height: '100%',
-    justifyContent: 'center',
-  },
-  logoutBtn: {
-    marginRight: 16,
-    height: 44,
-    justifyContent: 'center',
-  },
-  tabBtn: {
-    width: 70,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 8,
-  },
-});
 
 export default Home;

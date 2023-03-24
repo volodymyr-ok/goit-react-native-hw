@@ -19,6 +19,7 @@ export const colors = {
 export const fonts = {
   robo4: 'Roboto-Regular',
   robo5: 'Roboto-Medium',
+  robo7: 'Roboto-Bold',
 };
 
 // borderColor: 'green',
