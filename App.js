@@ -10,6 +10,9 @@ import RegistrationScreen from './Screens/Auth/RegistrationScreen/RegistrationSc
 import Home from './Screens/Main/Home/Home';
 import { store } from './redux/store';
 
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase/config';
+
 // SplashScreen.preventAutoHideAsync();
 const AuthStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -23,7 +26,9 @@ const customFonts = {
 
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
-  const isAuth = false;
+  const [isAuth, setIsAuth] = useState(false);
+
+  onAuthStateChanged(auth, user => (user ? setIsAuth(true) : setIsAuth(false)));
 
   useEffect(() => {
     async function prepare() {
@@ -58,7 +63,6 @@ const App = () => {
           <AuthStack.Navigator screenOptions={screenOptions}>
             <AuthStack.Screen name="Login" component={LoginScreen} />
             <AuthStack.Screen name="Registration" component={RegistrationScreen} />
-            <AuthStack.Screen name="Home" component={Home} />
           </AuthStack.Navigator>
         )}
         {/* </View> */}

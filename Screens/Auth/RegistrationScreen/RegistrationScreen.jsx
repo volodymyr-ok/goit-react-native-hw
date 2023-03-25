@@ -15,7 +15,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { colors } from '../../../utils/styles';
 import styles from './RegistrationScreenStyles';
-import { signUp } from '../../../redux/auth/authOperations';
+import { authSignUp } from '../../../redux/auth/authOperations';
 
 const BgImage = require('../../../assets/img/BgPhoto.jpg');
 
@@ -47,14 +47,13 @@ const RegistrationScreen = ({ navigation }) => {
 
   const onSubmit = () => {
     Keyboard.dismiss();
-    dispatch(signUp({ login, email, password }));
-
+    dispatch(authSignUp({ login, email, password }));
     setLogin('');
     setEmail('');
     setPassword('');
-
-    // navigation.navigate('Home');
   };
+
+  const isDisabled = !login || !email || !password ? true : false;
 
   return (
     <ImageBackground style={styles.bgImage} source={BgImage}>
@@ -117,7 +116,7 @@ const RegistrationScreen = ({ navigation }) => {
               </View>
             </KeyboardAvoidingView>
 
-            <TouchableOpacity style={styles.submitBtn} onPress={onSubmit}>
+            <TouchableOpacity style={styles.submitBtn} onPress={onSubmit} disabled={isDisabled}>
               <Text style={styles.submitText}>Зареєструватися</Text>
             </TouchableOpacity>
           </View>

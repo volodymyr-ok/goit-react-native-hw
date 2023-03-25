@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import PostItem from './PostItem';
 import { listStyles } from './Posts.styles';
 
@@ -180,8 +181,7 @@ const testData = [
 
 const PostsListScreen = ({ route }) => {
   const [posts, setPosts] = useState(testData);
-  const userNickname = 'User Name';
-  const userEmail = 'user@mail.com';
+  const { nickname, email } = useSelector(state => state.auth);
 
   useEffect(() => {
     setPosts(prevPosts => [route.params, ...prevPosts]);
@@ -193,9 +193,9 @@ const PostsListScreen = ({ route }) => {
         <Image source={{ uri: testAva }} style={listStyles.userAva} />
 
         <View style={listStyles.userDetails}>
-          <Text style={listStyles.userName}>{userNickname}</Text>
+          <Text style={listStyles.userName}>{nickname}</Text>
 
-          <Text style={listStyles.userMail}>{userEmail}</Text>
+          <Text style={listStyles.userMail}>{email}</Text>
         </View>
       </View>
 

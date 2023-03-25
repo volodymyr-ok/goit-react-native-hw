@@ -1,23 +1,19 @@
-import { auth, db } from '../../firebase/config';
+import { auth } from '../../firebase/config';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  signOut,
 } from 'firebase/auth';
 
-// const auth = getAuth;
-
-export const signUp = createAsyncThunk('auth/signUp', async (credentials, thunkAPI) => {
+export const authSignUp = createAsyncThunk('signUp', async (credentials, thunkAPI) => {
   const { login, email, password } = credentials;
   const { rejectWithValue } = thunkAPI;
+
   try {
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
-    console.log('before updateProfile ~ user >>', user);
-
-    // await updateProfile(user, { displayName: login });
-    console.log('after updateProfile ~ user >>', user);
-
+    await updateProfile(user, { displayName: login });
     return { ...user, displayName: login };
   } catch (err) {
     console.log(`ERROR CODE: ${err.code}.\n ${err.message}`);
@@ -25,13 +21,12 @@ export const signUp = createAsyncThunk('auth/signUp', async (credentials, thunkA
   }
 });
 
-export const signIn = createAsyncThunk(
-  'auth/signIn',
+export const authSignIn = createAsyncThunk(
+  'signIn',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const userCredential = signInWithEmailAndPassword(auth, email, password);
-
-      console.log('file: authOperations.js:10 ~ userCredential >>', userCredential);
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      return user;
     } catch (err) {
       console.log(`ERROR CODE: ${err.code}.\n ${err.message}`);
       return rejectWithValue();
@@ -39,14 +34,10 @@ export const signIn = createAsyncThunk(
   }
 );
 
-// export const signUp = () => async (dispatch, getState) => {
-//   try {
-//     const auth = getAuth();
-//     const userCredential = createUserWithEmailAndPassword(auth, email, password);
-//     console.log('file: authOperations.js:10 ~ userCredential >>', userCredential);
-//   } catch (err) {
-//     console.log(`Error code ${err.code}.\n${err.message}`);
-//   }
-// };
-
-// export const signOut = () => async (dispatch, getState) => {};
+export const authSignOut = createAsyncThunk('signOut', async (_, { rejectWithValue }) => {
+  try {
+    return await signOut(auth);
+  } catch (err) {
+    return rejectWithValue();
+  }
+});

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import PostsListScreen from '../../Nested/PostsListScreen/PostsListScreen';
 import CommentsScreen from '../../Nested/CommentsScreen/CommentsScreen';
@@ -39,7 +39,9 @@ const PostsScreen = () => {
           component={PostsListScreen}
           options={{ headerRight: LogoutBtn }}
         />
+
         <PostsStack.Screen name="Мапа" component={MapScreen} options={{ headerLeft: BackBtn }} />
+
         <PostsStack.Screen
           name="Коментарі"
           component={CommentsScreen}

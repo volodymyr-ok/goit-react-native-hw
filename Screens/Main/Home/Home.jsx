@@ -6,10 +6,17 @@ import ProfileScreen from '../ProfileScreen/ProfileScreen';
 import { colors, fonts } from '../../../utils/styles';
 import BackBtn from '../../../Components/BackBtn';
 import TabButton from '../../../Components/TabButton';
+import { auth } from '../../../firebase/config';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../../../redux/auth/authSlice';
 
 const Tabs = createBottomTabNavigator();
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const user = auth.currentUser;
+  dispatch(setCredentials(user));
+
   const screenOptions = {
     headerStyle: {
       borderBottomWidth: 1,

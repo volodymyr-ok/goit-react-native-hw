@@ -2,19 +2,22 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { colors } from '../utils/styles';
-import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { authSignOut } from '../redux/auth/authOperations';
 
 const LogoutBtn = () => {
-  const { navigate } = useNavigation();
+  const dispatch = useDispatch();
 
-  const logoutStyles = {
+  const styles = {
     marginRight: 16,
     height: 44,
     justifyContent: 'center',
   };
 
+  const handleLogOut = () => dispatch(authSignOut());
+
   return (
-    <TouchableOpacity onPress={() => navigate('Login')} style={logoutStyles}>
+    <TouchableOpacity onPress={handleLogOut} style={styles}>
       <Feather name="log-out" size={24} color={colors.logoutBtn} />
     </TouchableOpacity>
   );

@@ -13,7 +13,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { colors } from '../../../utils/styles';
 import styles from './LoginScreenStyles';
-import { signIn } from '../../../redux/auth/authOperations';
+import { authSignIn } from '../../../redux/auth/authOperations';
 
 const BgImage = require('../../../assets/img/BgPhoto.jpg');
 
@@ -40,9 +40,11 @@ const LoginScreen = ({ navigation }) => {
   const onFocus = input => setIsFocused({ [input]: true });
   const onBlur = input => setIsFocused({ [input]: false });
 
+  const isDisabled = !email || !password ? true : false;
+
   const onSubmit = () => {
     Keyboard.dismiss();
-    dispatch(signIn({ email, password }));
+    dispatch(authSignIn({ email, password }));
 
     setEmail('');
     setPassword('');
@@ -94,7 +96,7 @@ const LoginScreen = ({ navigation }) => {
                 </View>
               </KeyboardAvoidingView>
 
-              <TouchableOpacity style={styles.submitBtn} onPress={onSubmit}>
+              <TouchableOpacity style={styles.submitBtn} onPress={onSubmit} disabled={isDisabled}>
                 <Text style={styles.submitText}>Увійти</Text>
               </TouchableOpacity>
             </View>

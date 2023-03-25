@@ -67,13 +67,13 @@ const CreatePostsScreen = ({ navigation }) => {
     <View style={styles.mainContainer}>
       <View>
         <View style={styles.cameraWrap}>
-          {photoURI && <Image style={styles.photo} source={{ uri: photoURI }} />}
-
           <Camera style={styles.cameraViewport} ref={setCameraRef}>
             <TouchableOpacity onPress={takePhoto} style={styles.cameraBtn}>
               <FontAwesome name="camera" size={24} style={styles.cameraIcon} />
             </TouchableOpacity>
           </Camera>
+
+          {photoURI && <Image style={styles.photo} source={{ uri: photoURI }} />}
         </View>
 
         <TouchableOpacity style={styles.chooseBtn}>

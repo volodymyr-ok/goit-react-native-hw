@@ -22,21 +22,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 
-  photo: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    zIndex: 1,
-
-    height: 240,
-    width: '100%',
-  },
-
   cameraViewport: {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    objectFit: 'cover',
   },
 
   cameraBtn: {
@@ -51,6 +40,16 @@ const styles = StyleSheet.create({
 
   cameraIcon: {
     color: colors.placeholder,
+  },
+
+  photo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 1,
+
+    height: 240,
+    width: '100%',
   },
 
   chooseBtn: {
