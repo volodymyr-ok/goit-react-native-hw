@@ -4,9 +4,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { View } from 'react-native';
+import { Provider } from 'react-redux';
 import LoginScreen from './Screens/Auth/LoginScreen/LoginScreen';
 import RegistrationScreen from './Screens/Auth/RegistrationScreen/RegistrationScreen';
 import Home from './Screens/Main/Home/Home';
+import { store } from './redux/store';
 
 // SplashScreen.preventAutoHideAsync();
 const AuthStack = createNativeStackNavigator();
@@ -45,21 +47,23 @@ const App = () => {
   const screenOptions = { headerShown: false };
 
   return (
-    <NavigationContainer>
-      {/* <View style={{ flex: 1 }} onLayout={onLayoutRootView}> */}
-      {isAuth ? (
-        <MainStack.Navigator screenOptions={screenOptions}>
-          <MainStack.Screen name="Home" component={Home} />
-        </MainStack.Navigator>
-      ) : (
-        <AuthStack.Navigator screenOptions={screenOptions}>
-          <AuthStack.Screen name="Login" component={LoginScreen} />
-          <AuthStack.Screen name="Registration" component={RegistrationScreen} />
-          <AuthStack.Screen name="Home" component={Home} />
-        </AuthStack.Navigator>
-      )}
-      {/* </View> */}
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        {/* <View style={{ flex: 1 }} onLayout={onLayoutRootView}> */}
+        {isAuth ? (
+          <MainStack.Navigator screenOptions={screenOptions}>
+            <MainStack.Screen name="Home" component={Home} />
+          </MainStack.Navigator>
+        ) : (
+          <AuthStack.Navigator screenOptions={screenOptions}>
+            <AuthStack.Screen name="Login" component={LoginScreen} />
+            <AuthStack.Screen name="Registration" component={RegistrationScreen} />
+            <AuthStack.Screen name="Home" component={Home} />
+          </AuthStack.Navigator>
+        )}
+        {/* </View> */}
+      </NavigationContainer>
+    </Provider>
   );
 };
 

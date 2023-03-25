@@ -11,9 +11,11 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
 import { colors } from '../../../utils/styles';
 import styles from './RegistrationScreenStyles';
-import { AntDesign } from '@expo/vector-icons';
+import { signUp } from '../../../redux/auth/authOperations';
 
 const BgImage = require('../../../assets/img/BgPhoto.jpg');
 
@@ -21,9 +23,12 @@ const RegistrationScreen = ({ navigation }) => {
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isFocused, setIsFocused] = useState({});
+
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const listenShow = Keyboard.addListener('keyboardDidShow', () => setIsKeyboardShown(true));
@@ -35,17 +40,20 @@ const RegistrationScreen = ({ navigation }) => {
   }, []);
 
   const changeBorder = input => (isFocused[input] ? colors.mainAccent : colors.shapeAccent);
+  // const changeBg = input => (isFocused[input] ? colors. : colors.);
   const togglePassVisibility = () => setIsPasswordHidden(!isPasswordHidden);
   const onFocus = input => setIsFocused({ [input]: true });
   const onBlur = input => setIsFocused({ [input]: false });
 
   const onSubmit = () => {
     Keyboard.dismiss();
-    console.log({ login, email, password });
+    dispatch(signUp({ login, email, password }));
+
     setLogin('');
     setEmail('');
     setPassword('');
-    navigation.navigate('Home');
+
+    // navigation.navigate('Home');
   };
 
   return (

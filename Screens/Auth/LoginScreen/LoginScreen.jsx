@@ -10,8 +10,11 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { colors } from '../../../utils/styles';
 import styles from './LoginScreenStyles';
+import { signIn } from '../../../redux/auth/authOperations';
+
 const BgImage = require('../../../assets/img/BgPhoto.jpg');
 
 const LoginScreen = ({ navigation }) => {
@@ -20,6 +23,8 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isFocused, setIsFocused] = useState({});
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const listenShow = Keyboard.addListener('keyboardDidShow', () => setIsKeyboardShown(true));
@@ -37,10 +42,12 @@ const LoginScreen = ({ navigation }) => {
 
   const onSubmit = () => {
     Keyboard.dismiss();
-    console.log({ email, password });
+    dispatch(signIn({ email, password }));
+
     setEmail('');
     setPassword('');
-    navigation.navigate('Home');
+
+    // navigation.navigate('Home');
   };
 
   return (
@@ -88,7 +95,7 @@ const LoginScreen = ({ navigation }) => {
               </KeyboardAvoidingView>
 
               <TouchableOpacity style={styles.submitBtn} onPress={onSubmit}>
-                <Text style={styles.submitText}>Зареєструватися</Text>
+                <Text style={styles.submitText}>Увійти</Text>
               </TouchableOpacity>
             </View>
 
