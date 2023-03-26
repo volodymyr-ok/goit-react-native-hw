@@ -30,12 +30,12 @@ const testData = [
 ];
 
 const CommentsScreen = ({ route }) => {
-  const { photoUri } = route.params;
+  const { imageURL } = route.params;
   const [commentsData, setCommentsData] = useState(testData);
 
   return (
     <View style={pageStyles.container}>
-      <Image style={pageStyles.image} source={{ uri: photoUri }} />
+      <Image style={pageStyles.image} source={{ uri: imageURL }} />
 
       <FlatList
         data={commentsData}
