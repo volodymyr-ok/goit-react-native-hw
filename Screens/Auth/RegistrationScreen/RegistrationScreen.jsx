@@ -10,12 +10,16 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { colors } from '../../../utils/styles';
 import styles from './RegistrationScreenStyles';
 import { authSignUp } from '../../../redux/auth/authOperations';
+import * as ImagePicker from 'expo-image-picker';
+import { uploadAvatar } from '../../../redux/auth/authSlice';
+import { uploadFile } from '../../../helpers/uploadFile';
 
 const BgImage = require('../../../assets/img/BgPhoto.jpg');
 
@@ -24,6 +28,7 @@ const RegistrationScreen = ({ navigation }) => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isFocused, setIsFocused] = useState({});
 
+  const [avatar, setAvatar] = useState('');
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,29 +44,52 @@ const RegistrationScreen = ({ navigation }) => {
     };
   }, []);
 
+  const chooseImage = async () => {
+    if (avatar) return setAvatar('');
+    const chosenImage = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+    if (!chosenImage.canceled) setAvatar(chosenImage.assets[0].uri);
+  };
+
   const changeBorder = input => (isFocused[input] ? colors.mainAccent : colors.shapeAccent);
   // const changeBg = input => (isFocused[input] ? colors. : colors.);
   const togglePassVisibility = () => setIsPasswordHidden(!isPasswordHidden);
   const onFocus = input => setIsFocused({ [input]: true });
   const onBlur = input => setIsFocused({ [input]: false });
 
-  const onSubmit = () => {
-    Keyboard.dismiss();
-    dispatch(authSignUp({ login, email, password }));
-    setLogin('');
-    setEmail('');
-    setPassword('');
+  const onSubmit = async () => {
+    try {
+      Keyboard.dismiss();
+      const photoURL = await uploadFile(avatar, 'userAvatars');
+      const registerData = { login, email, password, photoURL };
+      dispatch(authSignUp(registerData));
+      setLogin('');
+      setEmail('');
+      setPassword('');
+    } catch (err) {
+      Alert.alert('Error', `${err.message}`);
+    }
   };
 
-  const isDisabled = !login || !email || !password ? true : false;
+  const isDisabled = !avatar || !login || !email || !password ? true : false;
 
   return (
     <ImageBackground style={styles.bgImage} source={BgImage}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ ...styles.mainContent, paddingBottom: isKeyboardShown ? 0 : 78 }}>
           <View style={styles.profilePhoto}>
-            <TouchableOpacity style={styles.addPhotoBtn}>
-              <AntDesign name="pluscircleo" size={24} color={colors.mainAccent} />
+            {avatar && <Image source={{ uri: avatar }} style={styles.avatar} />}
+
+            <TouchableOpacity style={styles.addPhotoBtn} onPress={chooseImage}>
+              {avatar ? (
+                <AntDesign name="closecircleo" size={25} color={colors.placeholder} />
+              ) : (
+                <AntDesign name="pluscircleo" size={25} color={colors.mainAccent} />
+              )}
             </TouchableOpacity>
           </View>
 

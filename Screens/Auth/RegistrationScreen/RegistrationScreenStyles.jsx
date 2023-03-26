@@ -46,8 +46,17 @@ export default StyleSheet.create({
     backgroundColor: `${colors.layoutBg}`,
   },
 
+  avatar: {
+    position: 'absolute',
+    zIndex: 1,
+    width: 120,
+    height: 120,
+    borderRadius: 16,
+  },
+
   addPhotoBtn: {
     position: 'absolute',
+    zIndex: 2,
     bottom: 14,
     right: -12,
 

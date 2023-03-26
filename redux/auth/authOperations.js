@@ -6,17 +6,18 @@ import {
   updateProfile,
   signOut,
 } from 'firebase/auth';
+import { Alert } from 'react-native';
 
 export const authSignUp = createAsyncThunk('signUp', async (credentials, thunkAPI) => {
-  const { login, email, password } = credentials;
+  const { login, email, password, photoURL } = credentials;
   const { rejectWithValue } = thunkAPI;
 
   try {
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(user, { displayName: login });
-    return { ...user, displayName: login };
+    await updateProfile(user, { displayName: login, photoURL });
+    return { ...user, displayName: login, photoURL };
   } catch (err) {
-    console.log(`ERROR CODE: ${err.code}.\n ${err.message}`);
+    Alert.alert('Error', `ERROR CODE: ${err.code}.\n ${err.message}`);
     return rejectWithValue();
   }
 });

@@ -18,7 +18,7 @@ const CreatePostsScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [location, setLocation] = useState('');
 
-  const { userId } = useSelector(state => state.auth);
+  const { userId, avatar } = useSelector(state => state.auth);
 
   useEffect(() => {
     (async () => {
@@ -57,7 +57,7 @@ const CreatePostsScreen = ({ navigation }) => {
     try {
       const imageURL = await uploadFile(photoURI);
       const colRef = collection(firestore, 'posts');
-      addDoc(colRef, { imageURL, coordinates, title, location, userId });
+      addDoc(colRef, { imageURL, coordinates, title, location, userId, avatar });
     } catch (err) {
       console.log(`Error:\n ${err.message}`);
     }

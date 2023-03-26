@@ -1,30 +1,31 @@
 import { collection } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import { firestore } from '../../../firebase/config';
+import { useSelector, useDispatch } from 'react-redux';
+import { auth, firestore, storage } from '../../../firebase/config';
 import PostItem from './PostItem';
 import { listStyles } from './Posts.styles';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { onSnapshot } from 'firebase/firestore';
 
-const testAva =
-  'https://c.wallhere.com/photos/3e/9f/1920x1200_px_camera_Lens_light_People_photographer_Silhouette_sunrise-1717871.jpg!s';
-
-const PostsListScreen = ({ route }) => {
+const PostsListScreen = () => {
   const [posts, setPosts] = useState([]);
-  const { nickname, email } = useSelector(state => state.auth);
+  const { nickname, email, avatar } = useSelector(state => state.auth);
 
   useEffect(() => {
     (async () => {
-      const colRef = collection(firestore, 'posts');
-      onSnapshot(colRef, data => setPosts(data.docs.map(doc => ({ ...doc.data(), id: doc.id }))));
+      const allPostsRef = collection(firestore, 'posts');
+      onSnapshot(allPostsRef, data =>
+        setPosts(data.docs.map(post => ({ ...post.data(), postId: post.id })))
+      );
     })();
-  }, [route.params]);
+  }, []);
 
   return (
     <View style={listStyles.container}>
       <View style={listStyles.userBox}>
-        <Image source={{ uri: testAva }} style={listStyles.userAva} />
+        <View style={listStyles.avatarWrap}>
+          {avatar && <Image source={{ uri: avatar }} style={listStyles.userAva} />}
+        </View>
 
         <View style={listStyles.userDetails}>
           <Text style={listStyles.userName}>{nickname}</Text>
@@ -35,8 +36,8 @@ const PostsListScreen = ({ route }) => {
 
       <FlatList
         data={posts}
-        keyExtractor={(item, index) => `${item.id}_${index}`}
-        renderItem={({ item }) => <PostItem postData={item} />}
+        keyExtractor={(item, index) => `${item.postId}_${index}`}
+        renderItem={({ item }) => <PostItem postData={{ ...item }} />}
       />
     </View>
   );

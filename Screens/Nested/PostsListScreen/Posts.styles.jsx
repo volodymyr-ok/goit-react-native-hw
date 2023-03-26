@@ -7,6 +7,14 @@ export const listStyles = StyleSheet.create({
 
   userBox: { flexDirection: 'row', marginBottom: 16 },
 
+  avatarWrap: {
+    width: 60,
+    height: 60,
+
+    borderRadius: 16,
+    backgroundColor: colors.shapeAccent,
+  },
+
   userAva: { borderRadius: 16, resizeMode: 'cover', width: 60, height: 60 },
 
   userDetails: { paddingVertical: 16, paddingLeft: 8 },
