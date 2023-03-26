@@ -7,15 +7,15 @@ import { EvilIcons, Feather } from '@expo/vector-icons';
 const PostItem = ({ postData }) => {
   if (!postData) return;
   const [post] = useState(postData);
-  const { photoUri, title, location, coordinates: coords } = post;
+  const { imageURL, title, location, coordinates: coords } = post;
 
   const navigation = useNavigation();
   const navigateToMap = () => navigation.navigate('Мапа', { coords });
-  const navigateToComments = () => navigation.navigate('Коментарі', { photoUri });
+  const navigateToComments = () => navigation.navigate('Коментарі', { imageURL });
 
   return (
     <View style={itemStyles.container}>
-      <Image style={itemStyles.image} source={{ uri: photoUri }} />
+      <Image style={itemStyles.image} source={{ uri: imageURL }} />
 
       <Text style={itemStyles.title}>{title ? title : 'Photo'}</Text>
 
