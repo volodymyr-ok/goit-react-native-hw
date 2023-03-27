@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { View } from 'react-native';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import LoginScreen from './Screens/Auth/LoginScreen/LoginScreen';
 import RegistrationScreen from './Screens/Auth/RegistrationScreen/RegistrationScreen';
 import Home from './Screens/Main/Home/Home';
@@ -12,6 +12,8 @@ import { store } from './redux/store';
 
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase/config';
+import Loader from './Components/Loader';
+import { toggleLoader } from './redux/auth/authSlice';
 
 // SplashScreen.preventAutoHideAsync();
 const AuthStack = createNativeStackNavigator();
@@ -28,7 +30,17 @@ const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
 
-  onAuthStateChanged(auth, user => (user ? setIsAuth(true) : setIsAuth(false)));
+  const dispatch = useDispatch();
+  const isLoading = useSelector(state => state.isLoading);
+
+  dispatch(toggleLoader(true));
+  onAuthStateChanged(auth, user => {
+    if (user) return setIsAuth(true);
+
+    setIsAuth(false);
+    dispatch(toggleLoader(false));
+    // user ? setIsAuth(true) : setIsAuth(false);
+  });
 
   useEffect(() => {
     async function prepare() {
@@ -47,13 +59,14 @@ const App = () => {
   //   if (appIsReady) await SplashScreen.hideAsync();
   // }, [appIsReady]);
 
-  if (!appIsReady) return null;
+  if (!appIsReady) return <Loader />;
 
   const screenOptions = { headerShown: false };
 
   return (
     <Provider store={store}>
       <NavigationContainer>
+        {isLoading && <Loader />}
         {/* <View style={{ flex: 1 }} onLayout={onLayoutRootView}> */}
         {isAuth ? (
           <MainStack.Navigator screenOptions={screenOptions}>

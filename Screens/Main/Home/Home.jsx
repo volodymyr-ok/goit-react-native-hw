@@ -7,15 +7,18 @@ import { colors, fonts } from '../../../utils/styles';
 import BackBtn from '../../../Components/BackBtn';
 import TabButton from '../../../Components/TabButton';
 import { auth } from '../../../firebase/config';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCredentials } from '../../../redux/auth/authSlice';
 
 const Tabs = createBottomTabNavigator();
 
 const Home = () => {
   const dispatch = useDispatch();
-  const user = auth.currentUser;
-  dispatch(setCredentials(user));
+  const { userId, nickname, email, avatar } = useSelector(state => state.auth);
+  if (!userId || !nickname || !email || !avatar) {
+    const user = auth.currentUser;
+    dispatch(setCredentials(user));
+  }
 
   const screenOptions = {
     headerStyle: {

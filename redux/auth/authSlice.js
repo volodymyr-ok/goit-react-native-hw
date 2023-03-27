@@ -6,6 +6,7 @@ const initialState = {
   nickname: '',
   email: '',
   avatar: '',
+  isLoading: false,
 };
 
 const authSlice = createSlice({
@@ -13,14 +14,17 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials(state, { payload }) {
-      console.log('file: authSlice.js:16 ~ payload >>', payload);
       if (!state.userId) state.userId = payload.uid;
       if (!state.nickname) state.nickname = payload.displayName;
       if (!state.email) state.email = payload.email;
       if (!state.avatar) state.avatar = payload.photoURL;
+      state.isLoading = false;
     },
     uploadAvatar(state, { payload }) {
       state.avatar = payload;
+    },
+    toggleLoader(state, { payload }) {
+      state.isLoading = payload;
     },
   },
 
@@ -29,11 +33,11 @@ const authSlice = createSlice({
       state.userId = payload.uid;
       state.nickname = payload.displayName;
       state.email = payload.email;
+      state.avatar = payload.photoURL;
     });
 
     builder.addCase(authSignUp.fulfilled, (state, action) => {
       const { payload } = action;
-      console.log('file: authSlice.js:35 ~ payload >>', payload);
       state.userId = payload.uid;
       state.nickname = payload.displayName;
       state.email = payload.email;
@@ -49,17 +53,4 @@ const authSlice = createSlice({
 });
 
 export const authReducer = authSlice.reducer;
-export const { setCredentials, uploadAvatar } = authSlice.actions;
-
-// {
-//   [signUp.fulfilled](state, action) {
-//    const { payload } = action;
-//    console.log('file: authSlice.js:17 ~ payload >>', payload);
-//    state.userId = payload.uid;
-//    state.nickname = payload.displayName;
-//   },
-//   [signIn.fulfilled](state, { payload }) {
-//    state.userId = payload.uid;
-//    state.nickname = payload.displayName;
-//   },
-// },
+export const { setCredentials, uploadAvatar, toggleLoader } = authSlice.actions;
