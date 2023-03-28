@@ -4,6 +4,7 @@ import { Feather } from '@expo/vector-icons';
 import { colors } from '../utils/styles';
 import { useDispatch } from 'react-redux';
 import { authSignOut } from '../redux/auth/authOperations';
+import { toggleLoader } from '../redux/auth/authSlice';
 
 const LogoutBtn = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,10 @@ const LogoutBtn = () => {
     justifyContent: 'center',
   };
 
-  const handleLogOut = () => dispatch(authSignOut());
+  const handleLogOut = () => {
+    dispatch(toggleLoader(true));
+    dispatch(authSignOut());
+  };
 
   return (
     <TouchableOpacity onPress={handleLogOut} style={styles}>

@@ -18,7 +18,7 @@ export const authSignUp = createAsyncThunk('signUp', async (credentials, thunkAP
     return { ...user, displayName: login, photoURL };
   } catch (err) {
     Alert.alert('Error', `ERROR CODE: ${err.code}.\n ${err.message}`);
-    return rejectWithValue();
+    return rejectWithValue(`ERROR CODE: ${err.code}.\n ${err.message}`);
   }
 });
 
@@ -30,7 +30,7 @@ export const authSignIn = createAsyncThunk(
       return user;
     } catch (err) {
       console.log(`ERROR CODE: ${err.code}.\n ${err.message}`);
-      return rejectWithValue();
+      return rejectWithValue(`ERROR CODE: ${err.code}.\n ${err.message}`);
     }
   }
 );
@@ -39,6 +39,6 @@ export const authSignOut = createAsyncThunk('signOut', async (_, { rejectWithVal
   try {
     return await signOut(auth);
   } catch (err) {
-    return rejectWithValue();
+    return rejectWithValue(`ERROR CODE: ${err.code}.\n ${err.message}`);
   }
 });

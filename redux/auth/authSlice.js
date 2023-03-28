@@ -38,14 +38,19 @@ const authSlice = createSlice({
       state.nickname = payload.displayName;
       state.email = payload.email;
       state.avatar = payload.photoURL;
+      state.isLoading = false;
     });
 
+    builder.addCase(authSignUp.rejected, (_, { payload }) => {
+      Alert.alert('Помилка...', `${payload}`);
+    });
     builder.addCase(authSignUp.fulfilled, (state, action) => {
       const { payload } = action;
       state.userId = payload.uid;
       state.nickname = payload.displayName;
       state.email = payload.email;
       state.avatar = payload.photoURL;
+      state.isLoading = false;
     });
 
     builder.addCase(authSignOut.fulfilled, state => {
@@ -53,6 +58,7 @@ const authSlice = createSlice({
       state.nickname = '';
       state.email = '';
       state.avatar = '';
+      state.isLoading = false;
     });
   },
 });

@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { colors } from '../../../utils/styles';
 import styles from './LoginScreenStyles';
 import { authSignIn } from '../../../redux/auth/authOperations';
+import { toggleLoader } from '../../../redux/auth/authSlice';
 
 const BgImage = require('../../../assets/img/BgPhoto.jpg');
 
@@ -44,6 +45,7 @@ const LoginScreen = ({ navigation }) => {
 
   const onSubmit = () => {
     Keyboard.dismiss();
+    dispatch(toggleLoader(true));
     dispatch(authSignIn({ email, password }));
 
     setEmail('');

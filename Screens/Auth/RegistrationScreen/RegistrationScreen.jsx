@@ -18,7 +18,7 @@ import { colors } from '../../../utils/styles';
 import styles from './RegistrationScreenStyles';
 import { authSignUp } from '../../../redux/auth/authOperations';
 import * as ImagePicker from 'expo-image-picker';
-import { uploadAvatar } from '../../../redux/auth/authSlice';
+import { toggleLoader, uploadAvatar } from '../../../redux/auth/authSlice';
 import { uploadFile } from '../../../helpers/uploadFile';
 
 const BgImage = require('../../../assets/img/BgPhoto.jpg');
@@ -64,6 +64,7 @@ const RegistrationScreen = ({ navigation }) => {
   const onSubmit = async () => {
     try {
       Keyboard.dismiss();
+      dispatch(toggleLoader(true));
       const photoURL = await uploadFile(avatar, 'userAvatars');
       const registerData = { login, email, password, photoURL };
       dispatch(authSignUp(registerData));
