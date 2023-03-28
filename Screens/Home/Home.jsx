@@ -1,14 +1,14 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import PostsScreen from '../PostsScreen/PostsScreen';
-import CreatePostsScreen from '../CreatePostsScreen/CreatePostsScreen';
-import ProfileScreen from '../ProfileScreen/ProfileScreen';
-import { colors, fonts } from '../../../utils/styles';
-import BackBtn from '../../../Components/BackBtn';
-import TabButton from '../../../Components/TabButton';
-import { auth } from '../../../firebase/config';
+import PostsScreen from './PostsScreen/PostsScreen';
+import CreatePostsScreen from './CreatePostsScreen/CreatePostsScreen';
+import ProfileScreen from './ProfileScreen/ProfileScreen';
+import { colors, fonts } from '../../utils/styles';
+import BackBtn from '../../Components/BackBtn';
+import TabButton from '../../Components/TabButton';
+import { auth } from '../../firebase/config';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCredentials } from '../../../redux/auth/authSlice';
+import { setCredentials } from '../../redux/auth/authSlice';
 
 const Tabs = createBottomTabNavigator();
 

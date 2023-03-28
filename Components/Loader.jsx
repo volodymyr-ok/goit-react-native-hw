@@ -1,18 +1,26 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { colors } from '../utils/styles';
 
 const Loader = () => (
   <View style={[styles.container, styles.horizontal]}>
-    <ActivityIndicator size="large" color="#00ff00" />
+    <ActivityIndicator size={100} color={colors.mainAccent} />
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
-    zIndex: 10,
+    // position: 'absolute',
+    // top: 0,
+    // left: 0,
+    // width: '100%',
+    // height: '100%',
+    zIndex: 100,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#00000043',
+    backgroundColor: colors.bgContent,
+    // backgroundColor: colors.cameraBtn,
+    // backgroundColor: colors.mainAccent,
   },
   horizontal: {
     flexDirection: 'row',

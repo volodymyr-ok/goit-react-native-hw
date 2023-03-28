@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Alert } from 'react-native';
 import { authSignIn, authSignOut, authSignUp } from './authOperations';
 
 const initialState = {
@@ -29,6 +30,9 @@ const authSlice = createSlice({
   },
 
   extraReducers: builder => {
+    builder.addCase(authSignIn.rejected, (_, { payload }) => {
+      Alert.alert('Помилка...', `${payload}`);
+    });
     builder.addCase(authSignIn.fulfilled, (state, { payload }) => {
       state.userId = payload.uid;
       state.nickname = payload.displayName;
@@ -48,6 +52,7 @@ const authSlice = createSlice({
       state.userId = '';
       state.nickname = '';
       state.email = '';
+      state.avatar = '';
     });
   },
 });

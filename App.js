@@ -1,23 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import * as SplashScreen from 'expo-splash-screen';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, {
+  useEffect,
+  useState,
+  // useCallback,
+} from 'react';
 import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
-import { View } from 'react-native';
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import LoginScreen from './Screens/Auth/LoginScreen/LoginScreen';
-import RegistrationScreen from './Screens/Auth/RegistrationScreen/RegistrationScreen';
-import Home from './Screens/Main/Home/Home';
+import { Provider } from 'react-redux';
 import { store } from './redux/store';
-
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './firebase/config';
-import Loader from './Components/Loader';
-import { toggleLoader } from './redux/auth/authSlice';
+import Main from './Screens/Main';
+// import * as SplashScreen from 'expo-splash-screen';
+// import { View } from 'react-native';
 
 // SplashScreen.preventAutoHideAsync();
-const AuthStack = createNativeStackNavigator();
-const MainStack = createNativeStackNavigator();
 
 const customFonts = {
   'Roboto-Medium': require('./assets/fonts/Roboto/Roboto-Medium.ttf'),
@@ -28,19 +22,6 @@ const customFonts = {
 
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
-
-  const dispatch = useDispatch();
-  const isLoading = useSelector(state => state.isLoading);
-
-  dispatch(toggleLoader(true));
-  onAuthStateChanged(auth, user => {
-    if (user) return setIsAuth(true);
-
-    setIsAuth(false);
-    dispatch(toggleLoader(false));
-    // user ? setIsAuth(true) : setIsAuth(false);
-  });
 
   useEffect(() => {
     async function prepare() {
@@ -59,25 +40,13 @@ const App = () => {
   //   if (appIsReady) await SplashScreen.hideAsync();
   // }, [appIsReady]);
 
-  if (!appIsReady) return <Loader />;
-
-  const screenOptions = { headerShown: false };
+  if (!appIsReady) return null;
 
   return (
     <Provider store={store}>
       <NavigationContainer>
-        {isLoading && <Loader />}
         {/* <View style={{ flex: 1 }} onLayout={onLayoutRootView}> */}
-        {isAuth ? (
-          <MainStack.Navigator screenOptions={screenOptions}>
-            <MainStack.Screen name="Home" component={Home} />
-          </MainStack.Navigator>
-        ) : (
-          <AuthStack.Navigator screenOptions={screenOptions}>
-            <AuthStack.Screen name="Login" component={LoginScreen} />
-            <AuthStack.Screen name="Registration" component={RegistrationScreen} />
-          </AuthStack.Navigator>
-        )}
+        <Main />
         {/* </View> */}
       </NavigationContainer>
     </Provider>
