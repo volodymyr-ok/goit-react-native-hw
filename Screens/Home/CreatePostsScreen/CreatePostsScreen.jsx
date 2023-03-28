@@ -57,7 +57,15 @@ const CreatePostsScreen = ({ navigation }) => {
     try {
       const imageURL = await uploadFile(photoURI);
       const colRef = collection(firestore, 'posts');
-      addDoc(colRef, { imageURL, coordinates, title, location, userId, avatar });
+      addDoc(colRef, {
+        imageURL,
+        coordinates,
+        title,
+        location,
+        userId,
+        avatar,
+        createdAt: Date.now(),
+      });
     } catch (err) {
       console.log(`Error:\n ${err.message}`);
     }

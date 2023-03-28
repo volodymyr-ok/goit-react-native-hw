@@ -17,8 +17,8 @@ const MainStack = createNativeStackNavigator();
 const Main = () => {
   const [isAuth, setIsAuth] = useState(false);
 
-  //   const isLoading = useSelector(state => state.isLoading);
-  const isLoading = true;
+  const isLoading = useSelector(state => state.isLoading);
+  // const isLoading = true;
   const dispatch = useDispatch();
 
   dispatch(toggleLoader(true));
@@ -33,21 +33,19 @@ const Main = () => {
   });
 
   return (
-    <>
-      <View style={{ flex: 1 }}>
-        {isLoading && <Loader />}
-        {isAuth ? (
-          <MainStack.Navigator screenOptions={{ headerShown: false }}>
-            <MainStack.Screen name="Home" component={Home} />
-          </MainStack.Navigator>
-        ) : (
-          <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-            <AuthStack.Screen name="Login" component={LoginScreen} />
-            <AuthStack.Screen name="Registration" component={RegistrationScreen} />
-          </AuthStack.Navigator>
-        )}
-      </View>
-    </>
+    <View style={{ height: '100%' }}>
+      {isAuth ? (
+        <MainStack.Navigator screenOptions={{ headerShown: false }}>
+          <MainStack.Screen name="Home" component={Home} />
+        </MainStack.Navigator>
+      ) : (
+        <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+          <AuthStack.Screen name="Login" component={LoginScreen} />
+          <AuthStack.Screen name="Registration" component={RegistrationScreen} />
+        </AuthStack.Navigator>
+      )}
+      {isLoading && <Loader />}
+    </View>
   );
 };
 

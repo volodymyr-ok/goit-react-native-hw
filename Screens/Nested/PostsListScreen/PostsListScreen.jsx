@@ -1,8 +1,8 @@
-import { collection } from 'firebase/firestore';
+import { collection, orderBy, query } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, Text, View } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { auth, firestore, storage } from '../../../firebase/config';
+import { useSelector } from 'react-redux';
+import { firestore } from '../../../firebase/config';
 import PostItem from './PostItem';
 import { listStyles } from './Posts.styles';
 import { onSnapshot } from 'firebase/firestore';
@@ -14,7 +14,8 @@ const PostsListScreen = () => {
   useEffect(() => {
     (async () => {
       const allPostsRef = collection(firestore, 'posts');
-      onSnapshot(allPostsRef, data =>
+      const sortedPosts = query(allPostsRef, orderBy('createdAt'));
+      onSnapshot(sortedPosts, data =>
         setPosts(data.docs.map(post => ({ ...post.data(), postId: post.id })))
       );
     })();

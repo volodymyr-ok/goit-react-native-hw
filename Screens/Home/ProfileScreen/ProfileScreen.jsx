@@ -21,9 +21,9 @@ const ProfileScreen = ({ navigation }) => {
 
   const getUserPosts = async () => {
     const allPostsRef = collection(firestore, 'posts');
-    const q = query(allPostsRef, where('userId', '==', userId));
+    const usersPostsRef = query(allPostsRef, where('userId', '==', userId));
 
-    await onSnapshot(q, data => {
+    onSnapshot(usersPostsRef, data => {
       setPosts(data.docs.map(item => ({ ...item.data(), id: item.id })));
     });
   };

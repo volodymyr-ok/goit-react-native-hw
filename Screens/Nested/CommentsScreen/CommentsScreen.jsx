@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image, TouchableOpacity, View, FlatList, TextInput, Keyboard } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { addDoc, collection, doc, onSnapshot } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { pageStyles } from './Comments.styles';
@@ -17,10 +17,11 @@ const CommentsScreen = ({ route }) => {
 
   const allPostsRef = collection(firestore, 'posts');
   const currentPostRef = doc(allPostsRef, postId);
-  const allCommentsRef = collection(currentPostRef, 'comments');
+  const commentsCollection = collection(currentPostRef, 'comments');
+  const sortedCommentsRef = query(commentsCollection, orderBy('createdAt'));
 
   useEffect(() => {
-    onSnapshot(allCommentsRef, data =>
+    onSnapshot(sortedCommentsRef, data =>
       setCommentsData(data.docs.map(comment => ({ ...comment.data() })))
     );
   }, []);
